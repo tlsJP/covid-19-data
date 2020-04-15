@@ -112,6 +112,10 @@ class NewCasesPerDay : Application() {
             val perDay = rec.totalCases!! - floor
             floor = rec.totalCases!!
 
+            if( rec.date!!.isBefore(LocalDate.of(2020,3,5))) {
+                continue
+            }
+
             pdData.add(XYChart.Data(rec.date.toString(), perDay))
             tData.add(XYChart.Data(rec.date.toString(), rec.totalCases!!))
         }

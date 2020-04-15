@@ -54,7 +54,7 @@ class NewCasesPerDay : Application() {
         xAxis.tickLabelFont = Font.font(15.0)
         yAxis.label = "Cases"
         val lineChart = LineChart(xAxis, yAxis)
-        lineChart.axisSortingPolicy = LineChart.SortingPolicy.NONE
+//        lineChart.axisSortingPolicy = LineChart.SortingPolicy.NONE
 
         // Get Data
         val fr = FileReader("us-states.csv")
@@ -111,14 +111,9 @@ class NewCasesPerDay : Application() {
         for (rec in records) {
             val perDay = rec.totalCases!! - floor
             floor = rec.totalCases!!
-            val date = (rec.date!!.year * 10000) + (rec.date!!.month.value * 100) + rec.date!!.dayOfMonth
 
-            if( rec.date!!.isBefore(LocalDate.of(2020,3,1))) {
-                continue
-            }
-
-            pdData.add(XYChart.Data(date.toString(), perDay))
-            tData.add(XYChart.Data(date.toString(), rec.totalCases!!))
+            pdData.add(XYChart.Data(rec.date.toString(), perDay))
+            tData.add(XYChart.Data(rec.date.toString(), rec.totalCases!!))
         }
 
         val sortedTData = SortedList(tData, kotlin.Comparator { o1, o2 -> o1.xValue.compareTo(o2.xValue) })

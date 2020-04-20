@@ -112,7 +112,7 @@ class NewCasesPerDay : Application() {
             val perDay = rec.totalCases!! - floor
             floor = rec.totalCases!!
 
-            if( rec.date!!.isBefore(LocalDate.of(2020,3,5))) {
+            if (rec.date!!.isBefore(LocalDate.of(2020, 3, 7))) {
                 continue
             }
 

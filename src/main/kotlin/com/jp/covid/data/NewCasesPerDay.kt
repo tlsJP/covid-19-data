@@ -90,6 +90,7 @@ class NewCasesPerDay : Application() {
         result.date = LocalDate.parse(r.get("date"), DateTimeFormatter.ISO_DATE)
         result.totalCases = Integer.parseInt(r.get("cases"))
         result.state = r.get("state")
+        result.deaths = Integer.parseInt(r.get("deaths"))
 
         return result
     }
@@ -104,8 +105,12 @@ class NewCasesPerDay : Application() {
         val totalCountSeries = XYChart.Series<String, Number>()
         totalCountSeries.name = "$state Total"
 
+        val deaths = XYChart.Series<String,Number>()
+        deaths.name = "$state Deaths"
+
         val pdData = FXCollections.observableArrayList<XYChart.Data<String, Number>>()
         val tData = FXCollections.observableArrayList<XYChart.Data<String, Number>>()
+        val dData = FXCollections.observableArrayList<XYChart.Data<String,Number>>()
 
         var floor = 0
         for (rec in records) {
@@ -118,17 +123,21 @@ class NewCasesPerDay : Application() {
 
             pdData.add(XYChart.Data(rec.date.toString(), perDay))
             tData.add(XYChart.Data(rec.date.toString(), rec.totalCases!!))
+            dData.add(XYChart.Data(rec.date.toString(),rec.deaths!!))
         }
 
         val sortedTData = SortedList(tData, kotlin.Comparator { o1, o2 -> o1.xValue.compareTo(o2.xValue) })
         val sortedPdData = SortedList(pdData, kotlin.Comparator { o1, o2 -> o1.xValue.compareTo(o2.xValue) })
+        val sortedDData = SortedList(dData, kotlin.Comparator { o1, o2 -> o1.xValue.compareTo(o2.xValue) })
 
 
         totalCountSeries.data = sortedTData
         perDaySeries.data = sortedPdData
+        deaths.data = sortedDData
 
         result.add(perDaySeries)
         result.add(totalCountSeries)
+//        result.add(deaths)
 
         return result
     }

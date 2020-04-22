@@ -7,5 +7,6 @@ class StateRecord {
     var state: String? = null
     var date: LocalDate? = null
     var totalCases: Int? = null
+    var deaths: Int? = null
 
 }

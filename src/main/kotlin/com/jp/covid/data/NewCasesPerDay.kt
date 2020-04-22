@@ -99,15 +99,6 @@ class NewCasesPerDay : Application() {
 
         val result: MutableCollection<XYChart.Series<String, Number>> = ArrayList()
 
-        val perDaySeries = XYChart.Series<String, Number>()
-        perDaySeries.name = "$state New Cases"
-
-        val totalCountSeries = XYChart.Series<String, Number>()
-        totalCountSeries.name = "$state Total"
-
-        val deaths = XYChart.Series<String,Number>()
-        deaths.name = "$state Deaths"
-
         val pdData = FXCollections.observableArrayList<XYChart.Data<String, Number>>()
         val tData = FXCollections.observableArrayList<XYChart.Data<String, Number>>()
         val dData = FXCollections.observableArrayList<XYChart.Data<String,Number>>()
@@ -126,13 +117,22 @@ class NewCasesPerDay : Application() {
             dData.add(XYChart.Data(rec.date.toString(),rec.deaths!!))
         }
 
-        val sortedTData = SortedList(tData, kotlin.Comparator { o1, o2 -> o1.xValue.compareTo(o2.xValue) })
-        val sortedPdData = SortedList(pdData, kotlin.Comparator { o1, o2 -> o1.xValue.compareTo(o2.xValue) })
-        val sortedDData = SortedList(dData, kotlin.Comparator { o1, o2 -> o1.xValue.compareTo(o2.xValue) })
+        val comparator = kotlin.Comparator<XYChart.Data<String,Number>>() { o1, o2 -> o1.xValue.compareTo(o2.xValue) }
 
+        val sortedTData = SortedList(tData, comparator)
+        val sortedPdData = SortedList(pdData, comparator)
+        val sortedDData = SortedList(dData, comparator)
 
-        totalCountSeries.data = sortedTData
+        val perDaySeries = XYChart.Series<String, Number>()
+        perDaySeries.name = "$state New Cases"
         perDaySeries.data = sortedPdData
+
+        val totalCountSeries = XYChart.Series<String, Number>()
+        totalCountSeries.name = "$state Total"
+        totalCountSeries.data = sortedTData
+
+        val deaths = XYChart.Series<String,Number>()
+        deaths.name = "$state Deaths"
         deaths.data = sortedDData
 
         result.add(perDaySeries)

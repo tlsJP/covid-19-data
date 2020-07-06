@@ -135,7 +135,7 @@ class NewCasesPerDay : Application() {
         deaths.name = "$state Deaths"
         deaths.data = sortedDData
 
-        result.add(perDaySeries)
+//        result.add(perDaySeries)
         result.add(totalCountSeries)
 //        result.add(deaths)
 
